@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shop — CustomBay</title>
+  <script>
+    // Tailwind CDN config: enable class-based dark mode
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = { darkMode: 'class' };
+  </script>
+  <script>
+          <div class="flex items-center space-x-8">
+          <a href="./index.html" class="flex items-center">
+            <img src="../assets/icons/logo1.jpg" alt="CustomBay" class="h-10 w-auto object-contain">
+          </a>
+          <nav class="hidden md:flex space-x-1">Apply saved theme before paint to avoid FOUC
+    (function(){
+      try{
+        var s = localStorage.getItem('cpanel.settings');
+        var theme = (s && JSON.parse(s).theme) || 'system';
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var useDark = theme === 'dark' || (theme === 'system' && prefersDark);
+        if(useDark) document.documentElement.classList.add('dark');
+      }catch(_){}
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      --gradient-secondary: linear-gradient(135deg, #059669 0%, #047857 100%);
+      --gradient-accent: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --blur: blur(20px);
+    }
+
+    .dark {
+      --glass-bg: rgba(0, 0, 0, 0.2);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    .dark .animated-bg {
+      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-size: 400% 400%;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating Elements */
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .float-delayed {
+      animation: float 6s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Advanced Buttons */
+    .btn {
+      position: relative;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--gradient-secondary);
+      color: white;
+      box-shadow: 0 8px 32px rgba(240, 147, 251, 0.3);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(240, 147, 251, 0.4);
+    }
+
+    .btn-ghost {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      color: #374151;
+    }
+
+    .dark .btn-ghost {
+      color: #f3f4f6;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .dark .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Enhanced Cards */
+    .product-card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--gradient-accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: -1;
+    }
+
+    .product-card:hover::before {
+      opacity: 0.1;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .product-card:hover {
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Image Hover Effects */
+    .image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+    }
+
+    .image-container img {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .image-container:hover img {
+      transform: scale(1.1);
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-container:hover .image-overlay {
+      opacity: 1;
+    }
+
+    /* Theme Toggle Animation */
+    .theme-toggle {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: var(--gradient-primary);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark .theme-toggle::before {
+      transform: translateX(30px);
+    }
+
+    /* Loading Animation */
+    .loading-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: loading 1.4s infinite ease-in-out both;
+    }
+
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes loading {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Navbar Blur */
+    .navbar-blur {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .navbar-blur {
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Enhanced Nav Links */
+    .nav-link {
+      position: relative;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #374151;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .nav-link {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #f3f4f6;
+    }
+
+    .dark .nav-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Smooth Scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Badge */
+    .badge {
+      background: var(--gradient-warm);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(250, 112, 154, 0.3);
+    }
+  </style>
+  <script>
+    // small inline error banner for visibility
+    (function(){
+      function showError(e){
+        try{
+          const box=document.createElement('div');
+          box.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#fee2e2;color:#991b1b;padding:12px 16px;font:14px/1.4 system-ui,Segoe UI,Roboto,sans-serif;z-index:99999;box-shadow:0 -2px 8px rgba(0,0,0,.1)';
+          const msg=document.createElement('div');
+          var detail = (e && (e.message || (e.reason && (e.reason.message||e.reason)) || e.toString())) || 'Unknown error';
+          msg.textContent='Error: '+detail;
+          box.appendChild(msg);
+          document.body.appendChild(box);
+        }catch(_){}
+        console.error('Ordering error:', e);
+      }
+      window.addEventListener('error', showError);
+      window.addEventListener('unhandledrejection', showError);
+    })();
+  </script>
+</head>
+<body class="animated-bg min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 navbar-blur">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+          <a href="./index.html" class="flex items-center">
+            <img src="../assets/icons/logo2.jpg" alt="CustomBay" class="h-16 w-auto object-contain">
+          </a>
+          <nav class="hidden md:flex space-x-1">
+            <a href="./index.html" class="nav-link px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500/20 to-green-500/20">Shop</a>
+            <a href="#" class="nav-link px-4 py-2 rounded-lg">About</a>
+            <a href="./contact.html" class="nav-link px-4 py-2 rounded-lg">Contact</a>
+          </nav>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+          </button>
+          <button id="cartBtn" class="btn btn-primary relative">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z"/>
+            </svg>
+            Cart
+            <span id="cartCount" class="badge ml-2">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Hero Section -->
+      <section class="text-center py-16 relative overflow-hidden" data-aos="fade-up">
+        <!-- Floating Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+          <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-green-400/20 rounded-full float blur-xl"></div>
+          <div class="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-green-400/15 to-red-400/15 rounded-full float-delayed blur-2xl"></div>
+          <div class="absolute bottom-20 left-1/4 w-64 h-64 bg-gradient-to-br from-red-400/25 to-blue-400/25 rounded-full float blur-xl"></div>
+          <div class="absolute top-1/3 right-1/4 w-48 h-48 bg-gradient-to-br from-amber-400/20 to-green-400/20 rounded-full float-delayed blur-xl"></div>
+        </div>
+        
+        <div class="relative z-10 glass p-12 rounded-3xl shadow-xl">
+          <div class="mb-8">
+            <img src="../assets/icons/logo1.jpg" alt="CustomBay" class="h-32 w-auto object-contain mx-auto mb-6">
+          </div>
+          <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-600 to-red-600 bg-clip-text text-transparent leading-tight">
+            Handcrafted
+            <span class="block">Perfection</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
+            Discover unique, personalized gifts crafted with love and attention to detail. 
+            Each piece tells a story, your story.
+          </p>
+          <div class="flex justify-center space-x-4">
+            <button class="btn btn-primary text-lg px-8 py-4 shadow-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+              </svg>
+              Explore Collection
+            </button>
+            <button class="btn btn-ghost text-lg px-8 py-4 shadow-md">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-5-10v20m0-20V3"/>
+              </svg>
+              Learn More
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Grid -->
+      <section class="py-16">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="font-display text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">Featured Products</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto rounded-full"></div>
+        </div>
+        
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Products will be injected here -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div id="cartDrawer" class="fixed right-0 top-0 h-full w-96 max-w-full glass border-l border-white/20 dark:border-gray-700/50 transform translate-x-full transition-transform duration-300 z-50 hidden">
+    <div class="p-6 h-full flex flex-col">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Shopping Cart</h3>
+        <button id="closeCart" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 mb-6">
+        <!-- Cart items will be rendered here -->
+      </div>
+      
+      <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-lg font-semibold text-gray-800 dark:text-gray-200">Total:</span>
+          <span id="cartTotal" class="text-xl font-bold bg-gradient-to-r from-blue-600 via-green-600 to-red-600 bg-clip-text text-transparent">$0.00</span>
+        </div>
+        <button id="proceedToCheckout" class="btn btn-primary w-full py-3 font-semibold">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+          </svg>
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product detail modal -->
+  <div id="productDetailPage" class="fixed inset-0 bg-gradient-to-br from-pink-50 to-white dark:from-gray-900 dark:to-gray-800 hidden z-50 overflow-auto transition-all duration-500">
+    <div class="max-w-4xl mx-auto my-10 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-pink-100/70 dark:ring-gray-800">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-6 flex flex-col gap-4" id="detailImages"></div>
+        <div class="p-8 flex flex-col gap-4">
+          <h2 id="detailName" class="text-3xl font-bold mb-2"></h2>
+          <div id="detailPrice" class="text-2xl font-semibold text-pink-600 mb-3"></div>
+          <div id="detailStock" class="text-sm text-gray-500 dark:text-gray-400 mb-3"></div>
+          <p id="detailDescription" class="text-gray-700 dark:text-gray-300 mb-4"></p>
+          <div class="flex items-center gap-3 mb-4">
+            <input id="detailQty" type="number" value="1" min="1" class="w-24 p-2 border rounded-lg shadow bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500" />
+            <button id="addToCartBtn" class="btn btn-primary !px-6 !py-3">Add to Cart</button>
+          </div>
+          <div><button id="closeDetail" class="text-sm text-gray-500">Back to Shop</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="glass mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="mb-4">
+            <img src="../assets/icons/logo2.jpg" alt="CustomBay" class="h-16 w-auto object-contain">
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+            Discover unique, handcrafted items and personalized creations made with love and attention to detail.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-red-500 to-amber-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm12 2a1 1 0 100 2 1 1 0 000-2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-gray-800 to-gray-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163A11.867 11.867 0 0112.02.01C18.617.01 24 5.384 24 11.98c-.003 6.594-5.377 11.97-11.97 11.97a11.95 11.95 0 01-6.123-1.662L.057 24zM6.57 20.11c1.735.995 3.27 1.591 5.48 1.592 5.448 0 9.886-4.434 9.89-9.882.003-5.462-4.415-9.89-9.878-9.894-5.45 0-9.887 4.433-9.89 9.881-.002 2.225.651 3.891 1.746 5.6L3.66 19.4l-.558 2.05 3.468-1.34zm11.257-4.49c-.068-.113-.247-.18-.515-.315-.267-.136-1.58-.78-1.825-.869-.245-.09-.423-.136-.602.136-.179.271-.691.868-.847 1.046-.156.18-.312.203-.58.068-.267-.136-1.126-.415-2.145-1.323-.793-.707-1.328-1.58-1.484-1.847-.156-.271-.017-.418.119-.553.123-.123.267-.315.401-.47.136-.157.18-.27.268-.448.09-.18.045-.338-.022-.47-.068-.136-.602-1.452-.826-1.988-.217-.522-.436-.452-.602-.46l-.515-.01c-.18 0-.47.068-.716.338-.245.271-.94.919-.94 2.24 0 1.32.964 2.594 1.1 2.774.136.18 1.893 2.895 4.59 4.052.642.277 1.142.443 1.532.566.644.205 1.23.176 1.694.107.517-.077 1.58-.645 1.806-1.27.223-.627.223-1.164.155-1.27z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Shop</a></li>
+            <li><a href="../index.html" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Dashboard</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">Categories</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Clothing</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Accessories</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Home Decor</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Custom Orders</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            © <span id="year"></span> CustomBay. All rights reserved.
+          </p>
+          <div class="flex space-x-6 text-sm">
+            <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script> AOS.init({ duration: 600, once: true, easing: 'ease-out-cubic' }); </script>
+  <script>
+    // Data keys (linking to existing cpanel backend)
+    const SETTINGS_KEY = 'cpanel.settings';
+    const PRODUCTS_KEY = 'cpanel.products';
+    const CLIENTS_KEY = 'cpanel.clients';
+    const TX_KEY = 'cpanel.transactions';
+    const CART_KEY = 'shop.cart';
+    const ORDERS_KEY = 'shop.orders';
+
+    function read(k, fb){ try{ const s=localStorage.getItem(k); return s?JSON.parse(s):fb; }catch(e){ return fb; } }
+    function write(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+    function getSettings(){ return read(SETTINGS_KEY, { currency:'USD', theme:'system' }); }
+    function setSettings(partial){ const cur=getSettings(); const next={...cur, ...partial}; write(SETTINGS_KEY, next); return next; }
+    function money(v){
+      const cur = (getSettings().currency) || 'USD';
+      try { return new Intl.NumberFormat(undefined, { style:'currency', currency:cur }).format(+v||0); }
+      catch(e){ return '$'+(+v||0).toFixed(2); }
+    }
+
+    // Products
+    const fallbackProducts = [
+      { id: 1, name: 'Custom Cup', price: 18, images:['https://picsum.photos/seed/cup01/600/400'], description: 'Blush-toned ceramic cup with your name.', stock: 12 },
+      { id: 2, name: 'Notebook', price: 22, images:['https://picsum.photos/seed/notebook01/600/400'], description: 'Lavender hardcover with custom initials.', stock: 7 },
+      { id: 3, name: 'Sticker Pack', price: 8, images:['https://picsum.photos/seed/stickers01/600/400'], description: 'Cute pastel sticker sheets.', stock: 30 },
+    ];
+    const products = read(PRODUCTS_KEY, fallbackProducts).map(p=>{
+      const imgs = Array.isArray(p.images) && p.images.length ? p.images : [p.image || `https://picsum.photos/seed/prod${p.id}/600/400`];
+      return { ...p, images: imgs, price: +p.price || 0, stock: p.stock ?? 10 };
+    });
+
+    // Cart helpers (shop.* namespace)
+    function loadCart(){ return read(CART_KEY, []); }
+    function saveCart(c){ write(CART_KEY, c); }
+
+    // Enhanced cart and theme toggle functionality
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartBtn = document.getElementById('cartBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartCountEl = document.getElementById('cartCount');
+    const proceedToCheckout = document.getElementById('proceedToCheckout');
+    const closeCart = document.getElementById('closeCart');
+    const productGrid = document.getElementById('productGrid');
+
+    // Cart drawer controls
+    cartBtn.addEventListener('click', () => {
+      cartDrawer.classList.remove('hidden');
+      setTimeout(() => cartDrawer.classList.remove('translate-x-full'), 10);
+    });
+
+    document.getElementById('closeCart').addEventListener('click', () => {
+      cartDrawer.classList.add('translate-x-full');
+      setTimeout(() => cartDrawer.classList.add('hidden'), 300);
+    });
+
+    // Enhanced checkout navigation
+    proceedToCheckout.addEventListener('click', () => {
+      window.location.href = './checkout.html';
+    });
+
+    // Enhanced theme toggle
+    function applyTheme(theme){
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const useDark = theme === 'dark' || (theme === 'system' && prefersDark);
+      document.documentElement.classList.toggle('dark', useDark);
+      
+      // Update theme toggle visual state
+      const toggle = document.getElementById('themeToggle');
+      if (useDark) {
+        toggle.classList.add('dark');
+      } else {
+        toggle.classList.remove('dark');
+      }
+    }
+
+    // Theme toggle click handler
+    if(themeToggle){
+      themeToggle.addEventListener('click', ()=>{
+        const s = getSettings();
+        const next = s.theme === 'dark' ? 'light' : 'dark';
+        setSettings({ theme: next });
+        applyTheme(next);
+        
+        // Add ripple effect
+        const ripple = document.createElement('div');
+        ripple.className = 'absolute inset-0 bg-white/30 rounded-full animate-ping';
+        themeToggle.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    }
+
+    // Render helpers
+    function card(p){
+      const el = document.createElement('article');
+      el.className = 'product-card p-6 relative group cursor-pointer';
+      el.setAttribute('data-aos','fade-up');
+      el.setAttribute('data-aos-delay', Math.random() * 300);
+      
+      el.innerHTML = `
+        <div class="image-container mb-6 relative">
+          <img src="${p.images[0]}" alt="${p.name}" class="w-full h-64 object-cover"/>
+          <div class="image-overlay">
+            <div class="text-center text-white">
+              <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              <p class="font-semibold">Quick View</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-display text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">${p.name}</h3>
+            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed" dir="auto">
+              ${(p.description||'').length > 100 ? (p.description.slice(0,100)+'...') : (p.description||'Beautiful handcrafted item')}
+            </p>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div class="space-y-1">
+              <div class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                ${money(p.price)}
+              </div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">
+                Stock: ${p.stock ?? '—'}
+              </div>
+            </div>
+            <div class="flex space-x-2">
+              <button class="view-btn btn btn-ghost px-4 py-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                View
+              </button>
+              <button class="add-btn btn btn-secondary px-4 py-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      const viewBtn = el.querySelector('.view-btn');
+      const addBtn = el.querySelector('.add-btn');
+      
+      viewBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.location.href = './product.html?pid='+p.id;
+      });
+      
+      addBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        quickAdd(p.id);
+        
+        // Add visual feedback
+        addBtn.innerHTML = `
+          <div class="flex items-center space-x-1">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+          </div>
+        `;
+        
+        setTimeout(() => {
+          addBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Added!
+          `;
+          addBtn.classList.remove('btn-secondary');
+          addBtn.classList.add('btn-primary');
+        }, 800);
+        
+        setTimeout(() => {
+          addBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            Add
+          `;
+          addBtn.classList.remove('btn-primary');
+          addBtn.classList.add('btn-secondary');
+        }, 2000);
+      });
+      
+      // Make the whole card clickable for quick view
+      el.addEventListener('click', () => {
+        window.location.href = './product.html?pid='+p.id;
+      });
+      
+      return el;
+    }
+
+    function renderGrid(){
+      productGrid.innerHTML='';
+      products.forEach(p=> productGrid.appendChild(card(p)));
+      AOS.refreshHard();
+    }
+
+    // Enhanced Toast
+    function toast(msg, type = 'success'){
+      const t = document.createElement('div');
+      const bgClass = type === 'success' ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-red-500 to-pink-500';
+      t.className = `fixed top-24 right-6 ${bgClass} text-white px-6 py-4 rounded-xl z-50 glass transform transition-all duration-500 translate-x-full opacity-0`;
+      t.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${type === 'success' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'}"/>
+          </svg>
+          <span class="font-medium">${msg}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(t);
+      
+      // Animate in
+      setTimeout(() => {
+        t.classList.remove('translate-x-full', 'opacity-0');
+      }, 100);
+      
+      // Animate out
+      setTimeout(() => {
+        t.classList.add('translate-x-full', 'opacity-0');
+        setTimeout(() => t.remove(), 500);
+      }, 3000);
+    }
+
+    // Enhanced Cart UI
+    function updateCartUI(){
+      const cart = loadCart();
+      const total = cart.reduce((s,i)=> s + i.price * i.qty, 0);
+      
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = `
+          <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15"/>
+            </svg>
+            <p class="font-medium">Your cart is empty</p>
+            <p class="text-sm">Add some items to get started</p>
+          </div>
+        `;
+      } else {
+        cartItemsEl.innerHTML = cart.map(item => `
+          <div class="flex items-start justify-between p-4 glass rounded-xl">
+            <div class="flex space-x-3 flex-1">
+              <img src="${item.image || `https://picsum.photos/seed/prod${item.id}/100/100`}" 
+                   alt="${item.name}" 
+                   class="w-12 h-12 object-cover rounded-lg">
+              <div class="flex-1 min-w-0">
+                <div class="font-medium text-gray-800 dark:text-gray-100 truncate">${item.name}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  ${item.qty} × ${money(item.price)}
+                </div>
+                ${item.options && Object.keys(item.options).length > 0 ? 
+                  `<div class="text-xs text-gray-400">${Object.entries(item.options).map(([k,v]) => `${k}: ${v}`).join(', ')}</div>` : ''
+                }
+                ${item.customText ? `<div class="text-xs text-gray-400 italic">"${item.customText}"</div>` : ''}
+              </div>
+            </div>
+            <div class="flex flex-col items-end space-y-2 ml-3">
+              <div class="font-semibold text-gray-800 dark:text-gray-200">${money(item.price * item.qty)}</div>
+              <button onclick="removeFromCart(${item.id})" class="p-1 hover:bg-red-500/20 rounded transition-colors text-red-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      cartTotalEl.textContent = money(total);
+      cartCountEl.textContent = cart.reduce((s,i)=> s + i.qty, 0);
+
+      // Update cart count badge visibility
+      const count = cart.reduce((s,i)=> s + i.qty, 0);
+      if (count > 0) {
+        cartCountEl.style.display = 'flex';
+      } else {
+        cartCountEl.style.display = 'none';
+      }
+    }
+
+    // Remove from cart function
+    window.removeFromCart = function(id) {
+      const cart = loadCart();
+      const filtered = cart.filter(item => item.id !== id);
+      saveCart(filtered);
+      updateCartUI();
+      toast('Item removed from cart', 'error');
+    }
+
+    function quickAdd(id){
+      const p = products.find(x=> x.id==id);
+      if(!p) return;
+      const cart = loadCart();
+      const item = cart.find(i=> i.id==id);
+      if(item) item.qty += 1; else cart.push({ id:p.id, name:p.name, price:p.price, qty:1 });
+      saveCart(cart); updateCartUI(); toast('Added to cart');
+    }
+
+  // Detail page overlay
+    function openDetail(id){
+      const p = products.find(x=> x.id==id); if(!p) return;
+      document.getElementById('detailName').textContent = p.name;
+      document.getElementById('detailPrice').textContent = money(p.price);
+      document.getElementById('detailStock').textContent = 'Stock: ' + (p.stock ?? '—');
+      const descEl = document.getElementById('detailDescription');
+      descEl.textContent = p.description || '';
+      descEl.setAttribute('dir', /[\u0600-\u06FF]/.test(p.description||'') ? 'rtl' : 'ltr');
+      const imagesEl = document.getElementById('detailImages');
+      imagesEl.innerHTML = '';
+      p.images.forEach(src=>{ const im=document.createElement('img'); im.src=src; im.className='w-full mb-2 rounded-xl shadow'; imagesEl.appendChild(im); });
+      document.getElementById('productDetailPage').classList.remove('hidden');
+      const qtyInput = document.getElementById('detailQty'); qtyInput.value = 1;
+      document.getElementById('addToCartBtn').onclick = function(){
+        const qty = Math.max(1, parseInt(qtyInput.value||1));
+        const cart = loadCart();
+        const item = cart.find(i=> i.id==p.id);
+        if(item) item.qty += qty; else cart.push({ id:p.id, name:p.name, price:p.price, qty });
+        saveCart(cart); updateCartUI(); toast('Added to cart'); location.hash = ''; };
+    }
+    function closeDetail(){ document.getElementById('productDetailPage').classList.add('hidden'); location.hash = ''; }
+    document.getElementById('closeDetail').addEventListener('click', closeDetail);
+
+    // Keep clients.orders in sync with Orders (non-canceled only)
+    function syncClientsOrders(){
+      const orders = read(ORDERS_KEY, []);
+      const active = orders.filter(o => (o.status||'pending') !== 'canceled');
+      const byPhone = new Map();
+      for(const o of active){
+        const phone = o.customer && o.customer.phone; if(!phone) continue;
+        if(!byPhone.has(phone)) byPhone.set(phone, []);
+        byPhone.get(phone).push(o.id);
+      }
+      const clients = read(CLIENTS_KEY, []);
+      let changed = false;
+      for(const c of clients){
+        const list = byPhone.get(c.phone) || [];
+        if(!Array.isArray(c.orders) || c.orders.join(',') !== list.join(',')){
+          c.orders = list;
+          changed = true;
+        }
+      }
+      for(const [phone, ids] of byPhone.entries()){
+        if(!clients.find(c=> c.phone===phone)){
+          const sample = active.find(o=> o.customer && o.customer.phone===phone);
+          const nextId = Math.max(0, ...clients.map(c=> c.id||0)) + 1;
+          clients.push({ id: nextId, name: sample?.customer?.name || 'New Customer', phone, birthday: sample?.customer?.birthday || '', notes:'', avatar:null, orders: ids });
+          changed = true;
+        }
+      }
+      if(changed) write(CLIENTS_KEY, clients);
+    }
+
+    // Initial render with enhanced loading
+    function quickAdd(id){
+      const p = products.find(x=> x.id==id);
+      if(!p) return;
+      const cart = loadCart();
+      const item = cart.find(i=> i.id==id);
+      if(item) item.qty += 1; else cart.push({ id:p.id, name:p.name, price:p.price, qty:1 });
+      saveCart(cart); updateCartUI(); toast(`${p.name} added to cart! 🎉`);
+    }
+
+    // Initialize everything
+    renderGrid(); 
+    updateCartUI(); 
+    syncClientsOrders();
+    
+    // Apply initial theme
+    const currentTheme = getSettings().theme || 'system';
+    applyTheme(currentTheme);
+
+  // Keep clients in sync if orders are changed (e.g., canceled) in another tab/app
+  window.addEventListener('storage', (e)=>{ if(e.key === ORDERS_KEY){ syncClientsOrders(); } });
+
+    // Footer year
+    const y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

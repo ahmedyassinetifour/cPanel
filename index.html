@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Control Panel</title>
+  <meta name="description" content="Premium client management panel – mock frontend" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eef7ff', 100: '#d9edff', 200: '#bfe0ff', 300: '#93ccff', 400: '#5db1ff',
+              500: '#3a93ff', 600: '#2c75e6', 700: '#245ec0', 800: '#1f4f9e', 900: '#1d447f'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 30px -10px rgba(2,6,23,0.2)',
+            glow: '0 0 0 4px rgba(59,130,246,0.15)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body { height: 100%; }
+    .glass { backdrop-filter: saturate(180%) blur(8px); background: rgba(255,255,255,0.7); }
+    .dark .glass { background: rgba(2,6,23,0.6); }
+  </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 antialiased">
+  <!-- App Shell -->
+  <div id="app" class="min-h-full">
+  <!-- Main App View -->
+  <section id="view-app">
+      <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-72 shrink-0 hidden md:flex md:flex-col gap-2 p-4 bg-white/80 dark:bg-slate-800/70 border-r border-slate-200/70 dark:border-slate-700/70 backdrop-blur sticky top-0 h-screen">
+          <div class="flex items-center gap-3 px-2 py-2">
+            <div class="h-12 w-12 rounded-xl grid place-items-center shadow">
+              <img src="./assets/icons/logo2.jpg" alt="CustomBay" class="h-10 w-10 object-contain rounded-lg">
+            </div>
+            <div>
+              <div class="font-extrabold">Control Panel</div>
+              <div class="text-xs text-slate-500">Manage customers</div>
+            </div>
+          </div>
+          <nav class="mt-4 space-y-1" id="sidebar-nav"></nav>
+        </aside>
+
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <!-- Topbar -->
+          <header class="sticky top-0 z-40 bg-white/70 dark:bg-slate-800/70 backdrop-blur border-b border-slate-200/70 dark:border-slate-700/70">
+            <div class="flex items-center justify-between px-4 py-3">
+              <div class="flex items-center gap-2">
+                <button id="mobile-menu" class="md:hidden h-10 w-10 grid place-items-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">☰</button>
+                <h2 id="page-title" class="text-lg font-bold">Dashboard</h2>
+              </div>
+              <div class="flex items-center gap-3">
+                <button id="toggle-theme" class="h-10 w-10 grid place-items-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Toggle theme">🌓</button>
+                <button id="notify-bell" class="relative h-10 w-10 grid place-items-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Upcoming birthdays">🔔<span id="notify-count" class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-rose-600 text-white hidden">0</span></button>
+                <!-- Give avatar a specific id so scripts target it (and not the bell's badge) -->
+                <div id="avatar" class="h-10 w-10 rounded-full bg-gradient-to-tr from-brand-500 to-purple-500 grid place-items-center text-white">A</div>
+              </div>
+            </div>
+          </header>
+
+          <main id="content" class="p-4 md:p-6 lg:p-8 space-y-6"></main>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

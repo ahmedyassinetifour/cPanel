@@ -1,0 +1,981 @@
+<!doctype html>
+<html lan  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --blur: blur(20px);
+    }
+
+    .dark {
+      --glass-bg: rgba(0, 0, 0, 0.2);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    .dark .animated-bg {
+      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-size: 400% 400%;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating Elements */
+    .float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .float-delayed {
+      animation: float 6s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Advanced Buttons */
+    .btn {
+      position: relative;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--gradient-secondary);
+      color: white;
+      box-shadow: 0 8px 32px rgba(240, 147, 251, 0.3);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(240, 147, 251, 0.4);
+    }
+
+    .btn-ghost {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      color: #374151;
+    }
+
+    .dark .btn-ghost {
+      color: #f3f4f6;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .dark .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Product Image Gallery */
+    .image-gallery {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+    }
+
+    .main-image {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-image:hover {
+      transform: scale(1.05);
+    }
+
+    /* Theme Toggle Animation */
+    .theme-toggle {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: var(--gradient-primary);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark .theme-toggle::before {
+      transform: translateX(30px);
+    }
+
+    /* Navbar Blur */
+    .navbar-blur {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .navbar-blur {
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Enhanced Input Fields */
+    .input-field {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 1rem;
+      padding: 1rem;
+      color: #374151;
+      transition: all 0.3s;
+    }
+
+    .input-field:focus {
+      border-color: rgba(102, 126, 234, 0.5);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
+
+    .dark .input-field {
+      color: #f3f4f6;
+    }
+
+    .dark .input-field::placeholder {
+      color: #9ca3af;
+    }
+  </style>"ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product — CustomBay</title>
+  <script>
+    // Tailwind CDN config: class-based dark
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = { darkMode: 'class' };
+  </script>
+  <script>
+    // Apply saved theme before paint
+    (function(){
+      try{
+        var s = localStorage.getItem('cpanel.settings');
+        var theme = (s && JSON.parse(s).theme) || 'system';
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var useDark = theme === 'dark' || (theme === 'system' && prefersDark);
+        if(useDark) document.documentElement.classList.add('dark');
+      }catch(_){ }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <style>
+    .btn { padding: 0.5rem 1rem; border-radius: 0.75rem; transition: all .3s ease; box-shadow: 0 4px 10px rgba(0,0,0,.06); display: inline-flex; align-items: center; }
+    .btn-primary { color: #fff; background-image: linear-gradient(90deg, #2563eb, #059669); }
+    .btn-primary:hover { transform: scale(1.02); filter: brightness(1.05); }
+    .btn-primary:focus { outline: 2px solid rgba(37,99,235,.6); outline-offset: 2px; }
+  .btn-ghost { background: #fff; border: 1px solid rgba(0,0,0,.08); color: #111827; }
+    .btn-ghost:hover { background: #f9fafb; }
+  .dark .btn-ghost { background: #1f2937; border-color: #374151; color: #F9FAFB; }
+    .dark .btn-ghost:hover { background: #374151; }
+    .badge { display: inline-flex; align-items: center; justify-content: center; font-size: .75rem; padding: 0.125rem 0.5rem; border-radius: 9999px; }
+  </style>
+</head>
+<body class="animated-bg min-h-screen">
+  <header class="fixed top-0 left-0 right-0 z-50 navbar-blur">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+          <a href="./index.html" class="flex items-center">
+            <img src="../assets/icons/logo2.jpg" alt="CustomBay" class="h-16 w-auto object-contain">
+          </a>
+          <nav class="hidden md:flex space-x-1">
+            <a href="./index.html" class="px-4 py-2 rounded-lg glass hover:bg-white/20 dark:hover:bg-white/10 text-gray-700 dark:text-gray-200 font-medium">Shop</a>
+            <a href="#" class="px-4 py-2 rounded-lg glass hover:bg-white/20 dark:hover:bg-white/10 text-gray-700 dark:text-gray-200 font-medium">About</a>
+            <a href="./contact.html" class="px-4 py-2 rounded-lg glass hover:bg-white/20 dark:hover:bg-white/10 text-gray-700 dark:text-gray-200 font-medium">Contact</a>
+          </nav>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="cartBtn" class="btn btn-ghost relative">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L3 3m4 10v6a1 1 0 001 1h8a1 1 0 001-1v-6M9 17h6"/>
+            </svg>
+            <span id="cartCount" class="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">0</span>
+          </button>
+          <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+          </button>
+          <a href="./index.html" class="btn btn-ghost">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m0 0h11a2 2 0 012 2v10a2 2 0 01-2 2H3"/>
+            </svg>
+            Back to Shop
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 pb-12">
+    <div id="productContainer" class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+        <!-- Product Image -->
+        <div class="space-y-6" data-aos="fade-right">
+          <div class="relative group glass rounded-2xl overflow-hidden" style="height: 600px;">
+            <img id="productImage" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Product">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <!-- Image Navigation -->
+            <div id="imageNavigation" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <!-- Image dots will be rendered here -->
+            </div>
+            
+            <!-- Previous/Next Buttons -->
+            <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/70">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="space-y-8 flex flex-col justify-between" data-aos="fade-left" style="min-height: 600px;">
+          <div class="space-y-6">
+            <div class="space-y-4">
+              <h1 id="productName" class="font-display text-4xl font-bold text-gray-800 dark:text-gray-100 leading-tight"></h1>
+              <div class="flex items-center space-x-2">
+                <span id="productPrice" class="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent"></span>
+              </div>
+              <p id="productDescription" class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"></p>
+            </div>
+
+          <!-- Product Options -->
+          <div class="space-y-6">
+            <div id="optionsContainer" class="space-y-4">
+              <!-- Options will be rendered here -->
+            </div>
+
+            <!-- Custom Text Input -->
+            <div class="space-y-3">
+              <label for="customText" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Custom Text (Optional)
+              </label>
+              <textarea 
+                id="customText" 
+                placeholder="Enter your custom text here..."
+                class="input-field w-full resize-none"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <!-- Quantity Selector -->
+            <div class="space-y-3">
+              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Quantity</label>
+              <div class="flex items-center space-x-4">
+                <button id="decreaseQty" class="w-12 h-12 btn btn-ghost flex items-center justify-center">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                  </svg>
+                </button>
+                <span id="quantity" class="w-16 text-center text-xl font-semibold text-gray-800 dark:text-gray-200">1</span>
+                <button id="increaseQty" class="w-12 h-12 btn btn-ghost flex items-center justify-center">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add to Cart Button -->
+          <div class="pt-6 space-y-4">
+            <button id="addToCartBtn" class="btn btn-primary w-full py-4 text-lg font-semibold">
+              <span class="flex items-center justify-center space-x-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m-2 0L3 3m4 10v6a1 1 0 001 1h8a1 1 0 001-1v-6M9 17h6"/>
+                </svg>
+                <span>Add to Cart</span>
+              </span>
+            </button>
+            
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 gap-3">
+              <button id="viewCartBtn" class="btn btn-ghost py-3 text-sm font-medium">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                View Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="glass mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="mb-4">
+            <img src="../assets/icons/logo2.jpg" alt="CustomBay" class="h-16 w-auto object-contain">
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+            Discover unique, handcrafted items and personalized creations made with love and attention to detail.
+          </p>
+          <div class="flex space-x-4">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+              </svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="w-10 h-10 bg-gradient-to-br from-gray-800 to-gray-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="./index.html" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Shop</a></li>
+            <li><a href="../index.html" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Dashboard</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4">Categories</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Clothing</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Accessories</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Home Decor</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Custom Orders</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            © <span id="year"></span> CustomBay. All rights reserved.
+          </p>
+          <div class="flex space-x-6 text-sm">
+            <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Privacy Policy</a>
+            <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div id="cartDrawer" class="fixed right-0 top-0 h-full w-96 max-w-full glass border-l border-white/20 dark:border-gray-700/50 transform translate-x-full transition-transform duration-300 z-50 hidden">
+    <div class="p-6 h-full flex flex-col">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Shopping Cart</h3>
+        <button id="closeCart" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div id="cartItems" class="flex-1 overflow-y-auto space-y-4 mb-6">
+        <!-- Cart items will be rendered here -->
+      </div>
+      
+      <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-lg font-semibold text-gray-800 dark:text-gray-200">Total:</span>
+          <span id="cartTotal" class="text-xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">$0.00</span>
+        </div>
+        <button id="proceedToCheckout" class="btn btn-primary w-full py-3 font-semibold">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+          </svg>
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="glass w-full max-w-md mx-4 rounded-2xl">
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Checkout</h3>
+          <button id="closeCheckout" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        
+        <form id="checkoutForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name *</label>
+            <input type="text" name="name" required class="input-field w-full" placeholder="Your full name">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
+            <input type="tel" name="phone" required class="input-field w-full" placeholder="Your phone number">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Birthday</label>
+            <input type="date" name="birthday" class="input-field w-full">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Delivery Address *</label>
+            <textarea name="address" required rows="3" class="input-field w-full resize-none" placeholder="Your delivery address"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full py-3 font-semibold mt-6">
+            Place Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script> AOS.init({ duration: 600, once: true, easing: 'ease-out-cubic' }); </script>
+  <script>
+    const SETTINGS_KEY = 'cpanel.settings';
+    const PRODUCTS_KEY = 'cpanel.products';
+    const CART_KEY = 'shop.cart';
+
+    function read(k, fb){ try{ const s=localStorage.getItem(k); return s?JSON.parse(s):fb; }catch(e){ return fb; } }
+    function write(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+    function getSettings(){ return read(SETTINGS_KEY, { currency:'USD', theme:'system' }); }
+    function money(v){ const cur=(getSettings().currency)||'USD'; try { return new Intl.NumberFormat(undefined, {style:'currency', currency:cur}).format(+v||0);} catch(e){ return '$'+(+v||0).toFixed(2);} }
+
+    const params = new URLSearchParams(location.search);
+    const pid = params.get('pid');
+    const raw = read(PRODUCTS_KEY, []);
+    const fallback = { id: 0, name: 'Product', price: 0, images: [], description: '', stock: 0, options: {} };
+    const p = (raw||[]).map(pp=>({ ...pp, images: (Array.isArray(pp.images)&&pp.images.length?pp.images:[pp.image].filter(Boolean)) })).find(pp=> String(pp.id)===String(pid)) || fallback;
+
+    // State
+    let quantity = 1;
+    let selectedOptions = {};
+
+    // Populate product info
+    document.getElementById('productName').textContent = p.name || 'Product';
+    document.getElementById('productPrice').textContent = money(p.price||0);
+    document.getElementById('productDescription').textContent = p.description || '';
+    
+    // Product image
+    const productImage = document.getElementById('productImage');
+    const imgs = (p.images && p.images.length ? p.images : [ `https://picsum.photos/seed/prod${p.id||1}/800/600` ]);
+    productImage.src = imgs[0];
+    productImage.alt = p.name;
+
+    // Render options
+    function renderOptions() {
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      
+      if (p.options && Object.keys(p.options).length > 0) {
+        Object.entries(p.options).forEach(([optionName, values]) => {
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'space-y-3';
+          
+          const label = document.createElement('label');
+          label.className = 'block text-sm font-semibold text-gray-700 dark:text-gray-300';
+          label.textContent = optionName;
+          
+          const select = document.createElement('select');
+          select.className = 'input-field w-full';
+          select.addEventListener('change', (e) => {
+            selectedOptions[optionName] = e.target.value;
+          });
+          
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = `Select ${optionName}`;
+          select.appendChild(defaultOption);
+          
+          values.forEach(value => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+          });
+          
+          optionDiv.appendChild(label);
+          optionDiv.appendChild(select);
+          container.appendChild(optionDiv);
+        });
+      }
+    }
+
+    // Quantity controls
+    function updateQuantity(newQty) {
+      quantity = Math.max(1, newQty);
+      document.getElementById('quantity').textContent = quantity;
+    }
+
+    document.getElementById('decreaseQty').addEventListener('click', () => {
+      updateQuantity(quantity - 1);
+    });
+
+    document.getElementById('increaseQty').addEventListener('click', () => {
+      updateQuantity(quantity + 1);
+    });
+
+    // Add to cart
+    function loadCart(){ return read(CART_KEY, []); }
+    function saveCart(c){ write(CART_KEY, c); }
+    
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const customText = document.getElementById('customText').value.trim();
+      
+      const cart = loadCart();
+      const cartItem = {
+        id: p.id,
+        name: p.name,
+        price: +(p.price||0),
+        qty: quantity,
+        image: imgs[0],
+        options: { ...selectedOptions },
+        customText: customText || null
+      };
+      
+      // Check for existing item with same options
+      const existingIndex = cart.findIndex(item => 
+        String(item.id) === String(p.id) && 
+        JSON.stringify(item.options) === JSON.stringify(selectedOptions) &&
+        item.customText === (customText || null)
+      );
+      
+      if (existingIndex >= 0) {
+        cart[existingIndex].qty += quantity;
+      } else {
+        cart.push(cartItem);
+      }
+      
+      saveCart(cart);
+      
+      // Show toast notification
+      showToast(`${p.name} added to cart! (${quantity})`, 'success');
+      
+      // Reset form
+      updateQuantity(1);
+      document.getElementById('customText').value = '';
+      selectedOptions = {};
+      renderOptions();
+      
+      // Update cart UI
+      updateCartUI();
+    });
+
+    // Initialize options
+    renderOptions();
+
+    // Cart UI Management
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const viewCartBtn = document.getElementById('viewCartBtn');
+    const proceedToCheckout = document.getElementById('proceedToCheckout');
+    const checkoutModal = document.getElementById('checkoutModal');
+    const checkoutForm = document.getElementById('checkoutForm');
+
+    function updateCartUI() {
+      const cart = loadCart();
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+
+      cartCountEl.textContent = count;
+      cartTotalEl.textContent = money(total);
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = `
+          <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15"/>
+            </svg>
+            <p class="font-medium">Your cart is empty</p>
+            <p class="text-sm">Add some items to get started</p>
+          </div>
+        `;
+      } else {
+        cartItemsEl.innerHTML = cart.map(item => `
+          <div class="flex items-start justify-between p-4 glass rounded-xl">
+            <div class="flex space-x-3 flex-1">
+              <img src="${item.image || `https://picsum.photos/seed/prod${item.id}/100/100`}" 
+                   alt="${item.name}" 
+                   class="w-12 h-12 object-cover rounded-lg">
+              <div class="flex-1 min-w-0">
+                <div class="font-medium text-gray-800 dark:text-gray-100 truncate">${item.name}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  ${item.qty} × ${money(item.price)}
+                </div>
+                ${item.options && Object.keys(item.options).length > 0 ? 
+                  `<div class="text-xs text-gray-400">${Object.entries(item.options).map(([k,v]) => `${k}: ${v}`).join(', ')}</div>` : ''
+                }
+                ${item.customText ? `<div class="text-xs text-gray-400 italic">"${item.customText}"</div>` : ''}
+              </div>
+            </div>
+            <div class="flex flex-col items-end space-y-2 ml-3">
+              <div class="font-semibold text-gray-800 dark:text-gray-200">${money(item.price * item.qty)}</div>
+              <button onclick="removeFromCart(${item.id})" class="p-1 hover:bg-red-500/20 rounded transition-colors text-red-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Update cart count badge visibility
+      if (count > 0) {
+        cartCountEl.style.display = 'flex';
+      } else {
+        cartCountEl.style.display = 'none';
+      }
+    }
+
+    // Remove from cart function
+    window.removeFromCart = function(id) {
+      const cart = loadCart();
+      const filtered = cart.filter(item => item.id !== id);
+      saveCart(filtered);
+      updateCartUI();
+      showToast('Item removed from cart', 'error');
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      const bgColor = type === 'error' ? 'bg-red-500' : 'bg-green-500';
+      toast.className = `fixed top-24 right-6 glass border ${type === 'error' ? 'border-red-200 dark:border-red-800' : 'border-green-200 dark:border-green-800'} px-6 py-4 rounded-xl z-50 transform translate-x-full transition-transform duration-300`;
+      toast.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 ${bgColor} rounded-full flex items-center justify-center">
+            ${type === 'error' ? 
+              '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>' :
+              '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
+            }
+          </div>
+          <p class="font-medium text-gray-800 dark:text-gray-200">${message}</p>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.classList.remove('translate-x-full'), 100);
+      setTimeout(() => {
+        toast.classList.add('translate-x-full');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Cart drawer controls
+    cartBtn.addEventListener('click', () => {
+      cartDrawer.classList.remove('hidden');
+      setTimeout(() => cartDrawer.classList.remove('translate-x-full'), 10);
+    });
+
+    viewCartBtn.addEventListener('click', () => {
+      cartDrawer.classList.remove('hidden');
+      setTimeout(() => cartDrawer.classList.remove('translate-x-full'), 10);
+    });
+
+    document.getElementById('closeCart').addEventListener('click', () => {
+      cartDrawer.classList.add('translate-x-full');
+      setTimeout(() => cartDrawer.classList.add('hidden'), 300);
+    });
+
+    // Checkout navigation
+    proceedToCheckout.addEventListener('click', () => {
+      const cart = loadCart();
+      if (cart.length === 0) {
+        showToast('Your cart is empty', 'error');
+        return;
+      }
+      window.location.href = './checkout.html';
+    });
+
+    document.getElementById('closeCheckout').addEventListener('click', () => {
+      checkoutModal.classList.add('hidden');
+    });
+
+    // Checkout form submission
+    const ORDERS_KEY = 'shop.orders';
+    const CLIENTS_KEY = 'cpanel.clients';
+    const TX_KEY = 'cpanel.transactions';
+
+    checkoutForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(checkoutForm);
+      const name = formData.get('name').trim();
+      const phone = formData.get('phone').trim();
+      const birthday = formData.get('birthday').trim();
+      const address = formData.get('address').trim();
+
+      if (!name || !phone || !address) {
+        showToast('Please fill in all required fields', 'error');
+        return;
+      }
+
+      const cart = loadCart();
+      if (cart.length === 0) {
+        showToast('Your cart is empty', 'error');
+        return;
+      }
+
+      // Create order
+      const orders = read(ORDERS_KEY, []);
+      const order = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        customer: { name, phone, birthday, address },
+        items: cart,
+        total: cart.reduce((s, i) => s + i.price * i.qty, 0),
+        status: 'pending'
+      };
+      orders.push(order);
+      write(ORDERS_KEY, orders);
+
+      // Update clients
+      const clients = read(CLIENTS_KEY, []);
+      let client = clients.find(c => c.phone === phone);
+      if (!client) {
+        const nextId = Math.max(0, ...clients.map(c => c.id || 0)) + 1;
+        client = { id: nextId, name, phone, birthday, notes: '', avatar: null, orders: [] };
+        clients.push(client);
+      }
+      client.orders = Array.isArray(client.orders) ? 
+        Array.from(new Set([...(client.orders || []), order.id])) : [order.id];
+      write(CLIENTS_KEY, clients);
+
+      // Update transactions
+      const txs = read(TX_KEY, []);
+      const today = new Date().toISOString().slice(0, 10);
+      let nextTxId = Math.max(0, ...txs.map(t => t.id || 0)) + 1;
+      for (const item of cart) {
+        txs.push({
+          id: nextTxId++,
+          clientId: client.id,
+          productId: item.id,
+          qty: item.qty,
+          priceAtPurchase: item.price,
+          date: today
+        });
+      }
+      write(TX_KEY, txs);
+
+      // Clear cart and close modals
+      write(CART_KEY, []);
+      updateCartUI();
+      cartDrawer.classList.add('translate-x-full');
+      setTimeout(() => cartDrawer.classList.add('hidden'), 300);
+      checkoutModal.classList.add('hidden');
+      
+      showToast('Order placed successfully! 🎉', 'success');
+      
+      // Reset form
+      checkoutForm.reset();
+      updateQuantity(1);
+      document.getElementById('customText').value = '';
+      selectedOptions = {};
+      renderOptions();
+    });
+
+    // Initialize cart UI
+    updateCartUI();
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    function applyTheme(theme){
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const useDark = theme === 'dark' || (theme === 'system' && prefersDark);
+      document.documentElement.classList.toggle('dark', useDark);
+    }
+    
+    function toggleTheme() {
+      const settings = getSettings();
+      const newTheme = settings.theme === 'dark' ? 'light' : 'dark';
+      settings.theme = newTheme;
+      write(SETTINGS_KEY, settings);
+      applyTheme(newTheme);
+    }
+    
+    if(themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    
+    const currentTheme = getSettings().theme || 'system';
+    applyTheme(currentTheme);
+
+    // Footer year
+    const y = document.getElementById('year'); if(y) y.textContent = new Date().getFullYear();
+
+    // Image Navigation
+    let currentImageIndex = 0;
+    const productImages = imgs; // Use actual product images
+
+    function updateProductImage() {
+      const mainImage = document.getElementById('productImage');
+      const dotsContainer = document.getElementById('imageNavigation');
+      const prevBtn = document.getElementById('prevImage');
+      const nextBtn = document.getElementById('nextImage');
+      
+      if (mainImage) {
+        mainImage.src = productImages[currentImageIndex];
+      }
+      
+      // Show/hide navigation elements based on number of images
+      const hasMultipleImages = productImages.length > 1;
+      
+      // Update dots - only show if more than 1 image
+      if (dotsContainer) {
+        if (hasMultipleImages) {
+          dotsContainer.innerHTML = '';
+          productImages.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = `w-3 h-3 rounded-full transition-colors duration-300 ${
+              index === currentImageIndex ? 'bg-white' : 'bg-white/30'
+            }`;
+            dot.onclick = () => goToImage(index);
+            dotsContainer.appendChild(dot);
+          });
+        } else {
+          dotsContainer.innerHTML = ''; // Hide dots if only 1 image
+        }
+      }
+      
+      // Show/hide prev/next buttons
+      if (prevBtn) {
+        prevBtn.style.display = hasMultipleImages ? 'flex' : 'none';
+      }
+      if (nextBtn) {
+        nextBtn.style.display = hasMultipleImages ? 'flex' : 'none';
+      }
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % productImages.length;
+      updateProductImage();
+    }
+
+    function prevImage() {
+      currentImageIndex = currentImageIndex === 0 ? productImages.length - 1 : currentImageIndex - 1;
+      updateProductImage();
+    }
+
+    function goToImage(index) {
+      currentImageIndex = index;
+      updateProductImage();
+    }
+
+    // Event listeners for image navigation
+    const prevBtn = document.getElementById('prevImage');
+    const nextBtn = document.getElementById('nextImage');
+    
+    if (prevBtn) prevBtn.addEventListener('click', prevImage);
+    if (nextBtn) nextBtn.addEventListener('click', nextImage);
+
+    // Initialize image navigation
+    updateProductImage();
+  </script>
+</body>
+</html>

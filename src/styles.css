@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { 
+  height: 100%; 
+}
+
+.glass { 
+  backdrop-filter: saturate(180%) blur(8px); 
+  background: rgba(255,255,255,0.7); 
+}
+
+.dark .glass { 
+  background: rgba(2,6,23,0.6); 
+} 

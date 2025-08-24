@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up • Client Control Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Inter','system-ui','Segoe UI','Roboto','sans-serif'] }, colors: { brand: { 50:'#eef7ff',100:'#d9edff',200:'#bfe0ff',300:'#93ccff',400:'#5db1ff',500:'#3a93ff',600:'#2c75e6',700:'#245ec0',800:'#1f4f9e',900:'#1d447f' }}, boxShadow: { soft: '0 10px 30px -10px rgba(2,6,23,0.2)', glow:'0 0 0 4px rgba(59,130,246,0.15)' } } } };
+  </script>
+  <style> html, body { height: 100%; } .glass { backdrop-filter: saturate(180%) blur(8px); background: rgba(255,255,255,0.7); } .dark .glass { background: rgba(2,6,23,0.6); } </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 antialiased">
+  <section class="min-h-screen grid place-items-center p-6">
+    <div class="w-full max-w-md">
+      <div class="relative">
+        <div class="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-tr from-brand-500 to-purple-500 blur-2xl opacity-20"></div>
+        <div class="glass rounded-3xl p-8 shadow-soft border border-white/40 dark:border-slate-800">
+          <div class="flex items-center justify-center mb-6">
+            <div class="h-12 w-12 rounded-2xl bg-brand-500 text-white grid place-items-center shadow-lg">👑</div>
+          </div>
+          <h1 class="text-2xl font-extrabold text-center mb-2">Create your account</h1>
+          <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Join to manage your customers</p>
+          <form id="signup-form" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-1" for="name">Name</label>
+              <input id="name" type="text" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-4 py-3 focus:outline-none focus:ring-4 focus:ring-brand-200 dark:focus:ring-brand-700 transition" placeholder="Jane Doe" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="email">Email</label>
+              <input id="email" type="email" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-4 py-3 focus:outline-none focus:ring-4 focus:ring-brand-200 dark:focus:ring-brand-700 transition" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" for="password">Password</label>
+              <input id="password" type="password" required class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 px-4 py-3 focus:outline-none focus:ring-4 focus:ring-brand-200 dark:focus:ring-brand-700 transition" placeholder="••••••••" />
+            </div>
+            <button class="w-full bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-semibold rounded-xl py-3 transition-all duration-200 shadow-lg hover:shadow-brand-500/30 focus:outline-none focus:shadow-glow">Create Account</button>
+          </form>
+          <div class="flex items-center justify-between mt-6 text-sm">
+            <button id="toggle-theme-login" class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 transition">Toggle Theme</button>
+            <a href="./login.html" class="text-brand-600 hover:text-brand-700">I have an account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="module">
+    const toggle = document.getElementById('toggle-theme-login');
+    toggle?.addEventListener('click', ()=>{
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    });
+    const form = document.getElementById('signup-form');
+    form?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      // Mock signup just sets session; in real app we'd call an API.
+      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value || email.split('@')[0] || 'User';
+      localStorage.setItem('session', JSON.stringify({ email, name, time: Date.now() }));
+      location.href = '../index.html#/dashboard';
+    });
+  </script>
+</body>
+</html>
